@@ -1,4 +1,5 @@
 // This is a simple and naive RSA implementation in C, comprised of both code and pseudocode. 
+// There may be mistakes in this code. This is not expected to run and work.
 
 #include <stdio.h>
 #include <math.h>
@@ -22,7 +23,7 @@ int main(void) {
   } 
   // checking if p is a prime number, or else algorithm does not work
 
-  printf("Prime number 1: ");
+  printf("Prime number 2: ");
   scanf("%d", &q);
   if (isPrime(q) == 1) {
     printf("%d is not a prime number!\n", q);
@@ -40,10 +41,10 @@ int main(void) {
   int temp = (p-1) * (q-1);
   int totient = lcm((p-1), (q-1));
 
-  printf("Select a prime number d, which is co-prime to %d, and such that 2 < d < %d", temp, n);
+  printf("Select a prime number d, which is co-prime to %d, and such that 2 < d < %d\n", temp, n);
   int d;
   scanf("%d", &d);
-  if (isCoPrime(d, n) == 1) {
+  if (isCoPrime(d, temp) == 1) {
     printf("%d is not a co-prime to %d!\n", d, n);
     return 0;
   }
@@ -61,15 +62,15 @@ int main(void) {
   }
 
   int modInverse = modularMultiInverse(d, temp);
-  if (modInverse = 0) {
+  if (modInverse == 0) {
     printf("Modular Multiplicative Inverse failed to calculate, please try with different parameters!\n");
     return 0;
   }
 
   printf("Your public key is : \n");
-  printf("n  : %d\n d: %d", n, d);
+  printf("n: %d\nd: %d\n", n, d);
   printf("Your private key is : \n");
-  printf("n  : %d\n d: %d", n, modInverse);
+  printf("n: %d\ne: %d\n", n, modInverse);
   // DISCLAIMER: DO NOT DISCLOSE YOUR PRIVATE KEY
 }
 
@@ -103,15 +104,17 @@ int isCoPrime(int a, int b) {
 
 int lcm(int a, int b) {
   int flag = 0;
+  int originalA = a;
+  int originalB = b;
   while (flag == 0) {
     if (a == b) {
       flag = 1;
     }
     if (a > b) {
-      b = b + b;
+      b = b + originalB;
     }
     if (a < b) {
-      a = a + a;
+      a = a + originalA;
     }
   }
   return a;
@@ -125,7 +128,8 @@ int modularMultiInverse(int d, int temp) {
   // if something does go wrong.
   int e = 0;
   for (int i = 1; i < maxSize; i++) {
-    if ((d * e) % temp == 1) {
+    if ((d * i) % temp == 1) {
+      e = i;
       return e;
     }
   }
