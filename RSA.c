@@ -1,5 +1,5 @@
-// This is a simple and naive RSA implementation in C, comprised of both code and pseudocode. 
-// There may be mistakes in this code. This is not expected to run and work.
+// This is a simple and naive RSA implementation in C. 
+// There may be mistakes in this code.
 
 #include <stdio.h>
 #include <math.h>
